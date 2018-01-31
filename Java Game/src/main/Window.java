@@ -1,5 +1,7 @@
 package main;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -16,6 +18,11 @@ public class Window extends JPanel{
 	
 	Ball ball = new Ball(this);
 	Racquet racquet = new Racquet(this);
+	int speed = 1;
+	
+	private int getScore() {
+		return speed - 1;
+	}
 	
 	public Window() {
 		addKeyListener(new KeyListener(){
@@ -32,6 +39,7 @@ public class Window extends JPanel{
 			}
 	});
 		setFocusable(true);
+		Sound.BACK.loop();
 	}
 	
 	private void move() {
@@ -45,12 +53,20 @@ public class Window extends JPanel{
 		super.paint(g);
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		
 		ball.paint(g2d);
 		racquet.paint(g2d);
+		
+		g2d.setColor(Color.RED);
+		g2d.setFont(new Font("Verdana", Font.BOLD, 30));
+		g2d.drawString(String.valueOf(getScore()), 10, 30);
 	}
 	
 	public void gameOver() {
-		JOptionPane.showMessageDialog(this, "Game Over", "Game Over", JOptionPane.YES_NO_OPTION);
+		Sound.BACK.stop();
+		Sound.GAMEOVER.play();
+		JOptionPane.showMessageDialog(this, "Your Score is: " + getScore(),
+				"Game Over", JOptionPane.YES_NO_OPTION);
 		System.exit(ABORT);
 	}
 	
@@ -61,7 +77,7 @@ public class Window extends JPanel{
 		JFrame Window = new JFrame("The Game");
 		Window game = new Window();
 		Window.add(game);
-		Window.setSize(400,400);
+		Window.setSize(800,600);
 		Window.setVisible(true);
 		Window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		

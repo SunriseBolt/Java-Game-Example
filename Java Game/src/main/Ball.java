@@ -5,7 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 public class Ball {
-	private static final int DIAMETER = 30;
+	private static final int DIAMETER = 40;
 	int x = 0, y = 0, xa = 1, ya = 1;
 	private Window game;
 	
@@ -14,18 +14,23 @@ public class Ball {
 	}
 	
 	void move() {
+		boolean changeDirection = true;
 		if (x + xa < 0)
-			xa = 1;
+			xa = game.speed;
 		if(x + xa > game.getWidth() - DIAMETER)
-			xa = -1;
+			xa = -game.speed;
 		if(y + ya < 0)
-			ya = 1;
+			ya = game.speed;
 		if(y + ya > game.getHeight() - DIAMETER)
 			game.gameOver();
 		if(collision()) {
-			ya = -1;
+			ya = -game.speed;
 			y = game.racquet.getTopY() - DIAMETER;
-		}
+			game.speed++;
+		} else
+				changeDirection = false;
+		if(changeDirection)
+			Sound.BALL.play();
 		
 		x += xa; y += ya;
 	}

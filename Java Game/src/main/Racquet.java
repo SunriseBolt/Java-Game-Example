@@ -6,7 +6,7 @@ import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 
 public class Racquet {
-	private static final int Y = 330, WIDTH = 60, HEIGHT = 10;
+	private static final int Y = 530, WIDTH = 100, HEIGHT = 10;
 	int x = 0, xa = 0;
 	private Window game;
 	
@@ -14,7 +14,7 @@ public class Racquet {
 		this.game = game;
 	}
 	public void move() {
-		if(x + xa > 0 && x + xa < game.getWidth()-60)
+		if(x + xa > 0 && x + xa < game.getWidth()-WIDTH)
 			x += xa;
 	}
 	
@@ -28,9 +28,9 @@ public class Racquet {
 	}
 	public void keyPressed(KeyEvent e) {
 		if(e.getKeyCode() == KeyEvent.VK_LEFT)
-			xa = -1;
+			xa = -game.speed;
 		if(e.getKeyCode() == KeyEvent.VK_RIGHT)
-			xa = 1;
+			xa = game.speed;
 	}
 	
 	public Rectangle getBounds() {
